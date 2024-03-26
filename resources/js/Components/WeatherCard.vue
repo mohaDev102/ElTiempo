@@ -31,7 +31,7 @@
                     <div class="hourly-humidity">
                         <p>Humedad por hora:</p>
                         <ul>
-                            <li v-for="(dato, index) in humedadRelativa.datos[0]" :key="index">
+                            <li v-for="(dato, index) in humedadRelativa.datos" :key="index">
                                 <span>{{ dato.hora }}h -</span>
                                 <span>{{ dato.value }}%</span>
                             </li>
