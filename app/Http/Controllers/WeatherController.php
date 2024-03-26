@@ -20,6 +20,7 @@ class WeatherController extends Controller
     public function getWeather($municipio)
     {
         $client = new Client();
+        // echo "wfewfWW";
         $response = $client->request('GET', "https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/$municipio", [
             'headers' => [
                 'Authorization' => 'api_key ' . env('API_KEY_AEMET'),

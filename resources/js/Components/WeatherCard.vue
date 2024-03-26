@@ -22,10 +22,29 @@
                     {{ probPrecipitacion[0]?.value || 0 }}%
                 </div>
             </div>
-        </div>
-        <div class="px-6 pt-4 pb-2 bg-blue-600">
-            <div class="text-center mt-2">
-                <a href="#" class="text-blue-200 text-sm">More +</a>
+            <div v-if="showDetails" class="additional-info">
+                <div class="humidity-details">
+                    <p>Humedad Relativa:</p>
+                    <div class="humidity-range">
+                        <div class="text-sm">Max: {{ humedadRelativa.maxima }}% - Min: {{ humedadRelativa.minima }}%</div>
+                    </div>
+                    <div class="hourly-humidity">
+                        <p>Humedad por hora:</p>
+                        <ul>
+                            <li v-for="(dato, index) in humedadRelativa.datos[0]" :key="index">
+                                <span>{{ dato.hora }}h -</span>
+                                <span>{{ dato.value }}%</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 pt-4 pb-2 bg-blue-600">
+                <div class="text-center mt-2">
+                    <button @click="showDetails = !showDetails" class="details-button">
+                        {{ showDetails ? 'Less -' : 'More +' }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -46,13 +65,22 @@ export default {
             required: true,
         },
         estadoCielo: {
-            type: Object,
+            type: String,
             required: true,
         },
         probPrecipitacion: {
             type: Array,
             required: true,
         },
+        humedadRelativa: {
+            type: Object,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            showDetails: false,
+        };
     },
     methods: {
         formatDay(dateString) {
@@ -76,7 +104,6 @@ export default {
             };
             return iconMap[description] || '';
         }
-
     }
 };
 </script>

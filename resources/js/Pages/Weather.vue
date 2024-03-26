@@ -4,7 +4,6 @@
             El tiempo en España por municipios
         </h1>
         <div class="relative">
-            <!-- aun no funciona -->
             <div>
                 <input type="text" v-model="filtroMunicipio" @input="filtrarMunicipios"
                     class="input-class block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -29,12 +28,8 @@
                 <WeatherCard v-for="(dia, index) in weatherData[0].prediccion.dia" :key="index" :fecha="dia.fecha"
                     :municipio="weatherData[0].nombre"
                     :temperatura="{ maxima: dia.temperatura.maxima, minima: dia.temperatura.minima }"
-                    :estadoCielo="getEstadoCielo(dia)" :probPrecipitacion="dia.probPrecipitacion" />
-            </div>
-        </div>
-        <div v-if="municipioSeleccionado">
-            <div class="row grid grid-cols-1 sm:grid-cols-4">
-                <WeatherCard v-if="municipioSeleccionado" :datos="municipioSeleccionado" />
+                    :estadoCielo="getEstadoCielo(dia)" :probPrecipitacion="dia.probPrecipitacion"
+                    :humedadRelativa="gethumedadRelativa(dia)" />
             </div>
         </div>
     </div>
@@ -52,7 +47,6 @@ export default {
     },
     data() {
         return {
-            // municipios: municipiosData,
             selectedMunicipio: '',
             selectedWeatherData: null,
             municipiosFiltrados: [],
@@ -72,8 +66,7 @@ export default {
     methods: {
         async getWeather() {
             try {
-                if (this.selectedMunicipio) 
-                {
+                if (this.selectedMunicipio) {
                     router.visit(`/weather/${this.selectedMunicipio}`);
                 }
             } catch (error) {
@@ -81,7 +74,12 @@ export default {
             }
         },
         getEstadoCielo(dia) {
+            console.log(dia);
             return dia.estadoCielo[0].descripcion || 'No disponible';
+        },
+        gethumedadRelativa(dia)
+        {
+            return dia.humedadRelativa || 'No disponible';
         },
         filtrarMunicipios() {
             if (this.filtroMunicipio) {
@@ -96,6 +94,8 @@ export default {
             this.municipioSeleccionado = municipio;
             this.filtroMunicipio = municipio.nombre;
             this.municipiosFiltrados = [];
+            router.visit(`/weather/${municipio.municipio}`);
+
         },
     }
 };
