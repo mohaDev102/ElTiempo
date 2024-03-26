@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Municipios;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Inertia\Inertia;
 
 class WeatherController extends Controller
 {
+    public function index()
+    {
+        $municipios = Municipios::selectRaw("id, CONCAT(CPRO, CMUN) as municipio, NOMBRE as nombre")
+        ->get();
+        return Inertia::render('Weather', [
+            'municipios' => $municipios
+        ]);
+    }
     public function getWeather($municipio)
     {
         $client = new Client();

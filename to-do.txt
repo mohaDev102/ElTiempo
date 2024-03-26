@@ -1,8 +1,7 @@
 To-Do
 
-Poner todos los municipios en la db
-Mostrar todos los municipios con select/input
-Estructurar información en un grid de diferentes cards, que muestre bien el tiempo
+Mostrar todos los municipios con select/input (falta input)
+Hacer la parte de obtener mas información
 optimizacion
 ver rendimiendo
 uso de codigo limpio y reoutizacion de codigo

@@ -35,9 +35,13 @@ use Inertia\Inertia;
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
-Route::get('/weather', function() {
+Route::get('/weather', function()
+{
     return Inertia::render('Weather');
 });
+
+Route::get('/weather', [WeatherController::class, 'index']);
+Route::get('/weather/{municipio}', [WeatherController::class, 'index']);
 Route::get('/weather/{municipio}', [WeatherController::class, 'getWeather']);
 
 require __DIR__.'/auth.php';

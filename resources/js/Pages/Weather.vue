@@ -4,6 +4,7 @@
             El tiempo en España por municipios
         </h1>
         <div class="relative">
+            <!-- aun no funciona -->
             <div>
                 <input type="text" v-model="filtroMunicipio" @input="filtrarMunicipios"
                     class="input-class block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -18,7 +19,7 @@
             <select id="municipio" v-model="selectedMunicipio" @change="getWeather"
                 class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 <option value="">Seleccione un municipio</option>
-                <option v-for="municipio in municipios" :key="municipio.id" :value="municipio.id">
+                <option v-for="municipio in municipios" :key="municipio.id" :value="municipio.municipio">
                     {{ municipio.nombre }}
                 </option>
             </select>
@@ -41,17 +42,17 @@
 <script>
 import { router } from '@inertiajs/vue3';
 import WeatherCard from '../Components/WeatherCard.vue';
-import municipiosData from '../../../public/build/json/municipios.json';
 export default {
     components: {
         WeatherCard,
     },
     props: {
+        municipios: Array,
         weatherData: Object,
     },
     data() {
         return {
-            municipios: municipiosData,
+            // municipios: municipiosData,
             selectedMunicipio: '',
             selectedWeatherData: null,
             municipiosFiltrados: [],
@@ -60,7 +61,6 @@ export default {
     },
     watch: {
         nombreMunicipio(newVal) {
-            console.log("entraa");
             if (newVal === '') {
                 this.selectedMunicipio = '';
             } else {
@@ -71,8 +71,13 @@ export default {
     },
     methods: {
         async getWeather() {
-            if (this.selectedMunicipio) {
-                router.visit(`/weather/${this.selectedMunicipio}`);
+            try {
+                if (this.selectedMunicipio) 
+                {
+                    router.visit(`/weather/${this.selectedMunicipio}`);
+                }
+            } catch (error) {
+                console.error('Error al obtener el clima:', error);
             }
         },
         getEstadoCielo(dia) {
